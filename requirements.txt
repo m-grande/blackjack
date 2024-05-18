@@ -1,0 +1,6 @@
+black
+ipdb
+isort
+loguru
+pytest
+pytest-loguru
