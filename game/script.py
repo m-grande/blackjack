@@ -85,7 +85,6 @@ def decision_player(player_hand, deck):
             logger.info("Your actual hand is:")
             for card in player_hand:
                 logger.info(f"{card[0]} of {card[1]}", end=" - ")
-            logger.info()
             if hand_value(player_hand) > 21:
                 keep_playing = False
         elif y_or_not == "n":
@@ -93,7 +92,6 @@ def decision_player(player_hand, deck):
             logger.info("Your hand is:")
             for card in player_hand:
                 logger.info(f"{card[0]} of {card[1]}", end=" - ")
-            logger.info()
         else:
             logger.info("Please enter 'y' or 'n'.")
 
@@ -111,7 +109,6 @@ def decision_handling(dealer_hand, deck):
         logger.info("His actual hand is:")
         for card in dealer_hand:
             logger.info(f"{card[0]} of {card[1]}", end=" - ")
-        logger.info()
         total = hand_value(dealer_hand)
 
     return dealer_hand
