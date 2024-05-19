@@ -87,6 +87,7 @@ def decision_player(player_hand, deck):
                 logger.info(f"{card[0]} of {card[1]}", end=" - ")
             if hand_value(player_hand) > 21:
                 keep_playing = False
+                logger.info("The player loses")
         elif y_or_not == "n":
             keep_playing = False
             logger.info("Your hand is:")
@@ -110,6 +111,8 @@ def decision_handling(dealer_hand, deck):
         for card in dealer_hand:
             logger.info(f"{card[0]} of {card[1]}", end=" - ")
         total = hand_value(dealer_hand)
+        if total > 21:
+            logger.info("The dealer loses")
 
     return dealer_hand
 
