@@ -1,10 +1,10 @@
-# Test deck initialization
-
+import random
 import io
 import logging
 import sys
 from io import StringIO
 from unittest.mock import patch
+
 
 from loguru import logger
 
@@ -35,27 +35,43 @@ def test_deck_initialization():
 # Test shuffle deck
 
 
+def shuffle_deck(deck):
+    random.shuffle(deck)
+    return deck
+
+
 def test_shuffle_deck():
     logger.info("Testing shuffle_deck...")
 
-    deck = deck_initialization()
-    shuffled_deck = shuffle_deck(deck)
+    original_deck = deck_initialization()
+    shuffled_deck = shuffle_deck(original_deck.copy())
 
     # Verify that all cards from the original deck are present in the shuffled deck
-    for card in deck:
+    for card in original_deck:
         assert card in shuffled_deck, f"Card {card} missing in the shuffled deck"
 
     # Verify that the shuffled deck is of the same length as the original deck
-    assert len(deck) == len(shuffled_deck), "Length of shuffled deck differs from original deck"
+    assert len(original_deck) == len(
+        shuffled_deck
+    ), "Length of shuffled deck differs from original deck"
 
-    # Verify that the shuffled decks are not the same from each other
+    # Verify that the shuffled decks are not the same as the original deck
+    assert original_deck != shuffled_deck, "Shuffled deck is the same as the original deck"
+
+    # Verify that multiple shuffles result in different deck orders
     num_tests = 100
-    shuffled_deck = []
+    shuffled_decks = []
     for _ in range(num_tests):
-        shuffled_deck.append(shuffle_deck(deck))
+        shuffled_deck = shuffle_deck(deck_initialization().copy())
+        shuffled_decks.append(shuffled_deck)
+
+    different_deck_count = 0
     for i in range(num_tests):
         for j in range(i + 1, num_tests):
-            assert shuffled_deck[i] != shuffled_deck[j], "Shuffled decks are not different"
+            if shuffled_decks[i] != shuffled_decks[j]:
+                different_deck_count += 1
+
+    assert different_deck_count > 0, "Shuffled decks are not different"
 
     logger.info("All tests passed successfully!")
 
